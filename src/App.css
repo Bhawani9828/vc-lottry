@@ -1,0 +1,59 @@
+
+/* orange   #E4572E */
+/* green    #17BEBB */
+
+
+.leftbar {
+  width: 200px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: #f4f4f4;
+  padding-top: 50px; /* Adjust this if you have a topbar */
+}
+
+
+
+
+
+
+
+.topbar {
+  width: 100%;
+  height: 50px;
+  background: #333;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.topbar .logo {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.topbar .logo img {
+  width: 30px;
+  margin-right: 10px;
+}
+
+.topbar .notifications, .topbar .user {
+  margin-left: 20px;
+}
+
+
+
+@media only screen and  (min-width:768px) {
+  .main-content {
+    margin-left: 200px;
+    padding-top: 50px; /* Adjust this if you have a topbar */
+    padding: 20px;
+  }
+}
