@@ -21,7 +21,7 @@ function AddAdmin() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://192.168.1.2:9999/api/auth/register', formData);
+      const response = await axios.post('http://192.168.1.9:9999/api/auth/register', formData);
       console.log('Admin added successfully:', response.data);
       toast.success('Admin added successfully!', {
         position: 'top-right',

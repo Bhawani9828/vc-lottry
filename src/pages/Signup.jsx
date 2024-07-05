@@ -72,7 +72,7 @@ function Signup() {
             </div>
           </form>
           <p className="mt-10 text-center text-sm text-gray-500">
-            <Link href="/login">Visit login page</Link>
+            <Link to="/login">Visit login page</Link>
           </p>
         </div>
       </div>
