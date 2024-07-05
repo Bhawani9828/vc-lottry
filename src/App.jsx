@@ -8,6 +8,10 @@ import Topbar from './components/Topbar';
 import AddAdmin from './pages/AddAdmin';
 import { useState } from 'react';
 import { ToastContainer } from 'react-toastify';
+import AddUser from './pages/AddUser';
+import UserList from './pages/UserList';
+import AllUsers from './pages/AllUsers';
+import PrivateRoute from './PrivateRoute';
 
 function App() {
   const location = useLocation();
@@ -31,8 +35,13 @@ function App() {
         <Routes>
           <Route path="/" element={<Signup />} />
           <Route path="/login" element={<Signin />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard"   element={<PrivateRoute> <Dashboard /> </PrivateRoute>}  />
           <Route path="/addadmin" element={<AddAdmin />} />
+          <Route path="/adduser" element={<AddUser />} />
+          <Route path="/userlist" element={<UserList />} />
+          <Route path="/alluser" element={<AllUsers />} />
+          <Route path="/unauthorized" element={<div className='text-black text-5xl flex justify-center items-center h-screen font-rubik-mono'>Unauthorized Access</div>} /> 
+          
         </Routes>
       </div>
     </>

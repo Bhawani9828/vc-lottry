@@ -53,7 +53,7 @@ function Signin() {
           position: 'top-right',
           autoClose: 2000,
           onClose: () => {
-            navigate("/addadmin");
+            navigate("/userlist");
           },
         });
       }

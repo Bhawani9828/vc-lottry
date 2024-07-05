@@ -101,22 +101,22 @@ function AddAdmin() {
             onChange={handleChange}
           />
         </div>
+
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="role">
-            Role
+          Role
           </label>
-          <select
+          <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+
+            type="text"
+            placeholder="role"
             id="role"
             value={formData.role}
             onChange={handleChange}
-          >
-            <option value="">Select role</option>
-            <option value="admin">Admin</option>
-            <option value="user">User</option>
-            <option value="superadmin">Superadmin</option>
-          </select>
+          />
         </div>
+       
         <div className="flex items-center justify-between">
           <button
             className="bg-[#17BEBB] hover:bg-[#E4572E] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
