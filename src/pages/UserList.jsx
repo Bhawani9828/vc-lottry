@@ -59,8 +59,9 @@ function UserList() {
           <thead>
             <tr>
               <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">Name</th>
-              <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">Password</th>
+              <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">role</th>
               <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">Email</th>
+              <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">createdBy</th>
               <th className="px-6 py-3 border-b"></th>
             </tr>
           </thead>
@@ -68,8 +69,9 @@ function UserList() {
             {users.map((user, index) => (
               <tr key={index}>
                 <td className="px-6 py-4 border-b text-sm text-gray-900">{user.name}</td>
-                <td className="px-6 py-4 border-b text-sm text-gray-900">{user.password}</td>
+                <td className="px-6 py-4 border-b text-sm text-gray-900">{user.role}</td>
                 <td className="px-6 py-4 border-b text-sm text-gray-900">{user.email}</td>
+                <td className="px-6 py-4 border-b text-sm text-gray-900">{user.createdBy}</td>
                 <td className="px-6 py-4 border-b text-right text-sm">
                   <button className="text-[#17BEBB] hover:text-[#E4572E]">Edit</button>
                 </td>
