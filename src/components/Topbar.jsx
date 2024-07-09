@@ -1,11 +1,27 @@
 import { useState } from 'react';
-
+import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 // eslint-disable-next-line react/prop-types
 function Topbar({ isMenuOpen, toggleMenu }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
+  const navigate = useNavigate();
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleSignOut = () => {
+    try{
+       Cookies.remove('token');
+      // Redirect to login page after sign-out
+      toast.success('Logout successfully!');
+      navigate('/');
+    }catch(error){
+      toast.error(`Error Logout: ${error.message}`);
+    }
+    
+  
   };
 
   return (
@@ -141,15 +157,15 @@ function Topbar({ isMenuOpen, toggleMenu }) {
                   >
                     Settings
                   </a>
-                  <a
-                    href="#"
+                  <button
+                    onClick={handleSignOut}
                     className="block px-4 py-2 text-sm text-gray-700"
                     role="menuitem"
                     tabIndex={-1}
                     id="user-menu-item-2"
                   >
                     Sign out
-                  </a>
+                  </button>
                 </div>
               )}
             </div>

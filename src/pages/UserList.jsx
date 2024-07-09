@@ -45,6 +45,7 @@ function UserList() {
   
       fetchUsers();
     }, []);
+
   return (
     <div className="w-full h-screen rounded-md mt-12 p-4 bg-[#e4572e24]">
       <div className="flex justify-between items-center mb-4">
@@ -61,7 +62,6 @@ function UserList() {
               <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">Name</th>
               <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">role</th>
               <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">Email</th>
-              <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">createdBy</th>
               <th className="px-6 py-3 border-b"></th>
             </tr>
           </thead>
@@ -71,7 +71,7 @@ function UserList() {
                 <td className="px-6 py-4 border-b text-sm text-gray-900">{user.name}</td>
                 <td className="px-6 py-4 border-b text-sm text-gray-900">{user.role}</td>
                 <td className="px-6 py-4 border-b text-sm text-gray-900">{user.email}</td>
-                <td className="px-6 py-4 border-b text-sm text-gray-900">{user.createdBy}</td>
+                
                 <td className="px-6 py-4 border-b text-right text-sm">
                   <button className="text-[#17BEBB] hover:text-[#E4572E]">Edit</button>
                 </td>

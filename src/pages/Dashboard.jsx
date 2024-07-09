@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function Dashboard() {
   const [admins, setAdmins] = useState([]);
-
+  
   useEffect(() => {
     const fetchAdmins = async () => {
       try {
@@ -44,6 +44,54 @@ function Dashboard() {
     fetchAdmins();
   }, []);
 
+
+  const handleDelete = async (id) => {
+    try {
+      console.log("Deleting admin with _id:", id);  // Debugging statement
+
+      if (!id) {
+        throw new Error('No _id provided for deletion');
+      }
+
+      const token = Cookies.get('token');
+      if (!token) {
+        throw new Error('No authentication token found.');
+      }
+
+      const response = await fetch(`http://192.168.1.9:9999/api/auth/delete-user/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'x-auth-token': token
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      // Remove the deleted admin from the state
+      setAdmins((prevAdmins) => prevAdmins.filter(admin => admin.id !== id));
+      
+
+      toast.success('Admin deleted successfully!', {
+        position: 'top-right',
+        autoClose: 2000,
+      });
+    } catch (error) {
+      console.error('Error deleting admin:', error);
+      toast.error('Error deleting admin. Please try again later.', {
+        position: 'top-right',
+        autoClose: 2000,
+      });
+    }
+  };
+
+  const confirmDelete = (id) => {
+    if (window.confirm('Are you sure you want to delete this admin?')) {
+      handleDelete(id);  // Pass _id correctly
+    }
+  };
+
   return (
     <div className="w-full h-screen rounded-md mt-12 p-4 bg-[#e4572e24]">
       <div className="flex justify-between items-center mb-4">
@@ -61,7 +109,8 @@ function Dashboard() {
               <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">Password</th>
               <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">Email</th>
               <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">Role</th>
-              <th className="px-6 py-3 border-b"></th>
+              <th className="px-6 py-3 border-b text-center text-sm font-medium text-gray-500">Action</th>
+  
             </tr>
           </thead>
           <tbody>
@@ -71,8 +120,14 @@ function Dashboard() {
                 <td className="px-6 py-4 border-b text-sm text-gray-900">{admin.password}</td>
                 <td className="px-6 py-4 border-b text-sm text-gray-900">{admin.email}</td>
                 <td className="px-6 py-4 border-b text-sm text-gray-900">{admin.role}</td>
-                <td className="px-6 py-4 border-b text-right text-sm">
-                  <button className="text-[#17BEBB] hover:text-[#E4572E]">Edit</button>
+                <td className="px-6 py-4 border-b flex justify-around  text-sm">
+                <Link to={`/edituser/${admin.id}`} className="text-[#17BEBB]  z-10 hover:text-[#E4572E]">Edit</Link>
+                    <button
+                      onClick={() => confirmDelete(admin.id)}  // Pass _id correctly
+                      className="text-red-500 hover:text-red-700 ml-2"
+                    >
+                      Delete
+                    </button>
                 </td>
               </tr>
             ))}

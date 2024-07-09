@@ -25,6 +25,10 @@ function Leftbar({ isMenuOpen, toggleMenu }) {
             <GrUserAdmin className="mr-2" />
             Add Admin
           </Link>
+          <Link to="/usersbyadmin" className=" px-4 py-2 rounded-lg hover:bg-[#17BEBB] flex items-center">
+            <FaChartBar className="mr-2" />
+            Users By Admin
+          </Link>
           <Link to="/adduser" className=" px-4 py-2 rounded-lg hover:bg-[#17BEBB] flex items-center">
             <FaUserPlus className="mr-2" />
             Add User
@@ -34,10 +38,7 @@ function Leftbar({ isMenuOpen, toggleMenu }) {
             User List
           </Link>
           
-          <Link to="#" className=" px-4 py-2 rounded-lg hover:bg-[#17BEBB] flex items-center">
-            <FaChartBar className="mr-2" />
-            Reports
-          </Link>
+        
         </nav>
         <div className="p-4 border-t border-white">
           <Link to="#" className=" text-sm font-medium hover:underline flex items-center">
