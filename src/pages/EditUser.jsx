@@ -77,7 +77,7 @@ function EditUser() {
   };
 
   return (
-    <div className="w-full h-screen rounded-md mt-12 p-4 bg-[#e4572e24]">
+    <div className="w-full  rounded-md mt-12 p-4 bg-[#e4572e24]">
       <div className="flex justify-between items-center mb-4">
         <div>
           <h2 className="text-xl font-semibold">Edit User</h2>

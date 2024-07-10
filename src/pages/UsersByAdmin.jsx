@@ -189,7 +189,14 @@ function UsersByAdmin() {
   };
 
   return (
-    <div className="w-full h-screen rounded-md mt-12 p-4 bg-[#e4572e24]">
+    <div className="w-full  rounded-md mt-12 p-4 bg-[#e4572e24]">
+        <div className="flex justify-between items-center mb-4">
+        <div>
+          <h2 className="text-xl font-semibold">UsersByAdmin</h2>
+          <p className="text-gray-600">A list of all the Users in your account including their name, title, email and role.</p>
+        </div>
+        {/* <Link to='/addadmin' className="bg-[#17BEBB] hover:bg-[#E4572E] text-white py-2 px-4 rounded">Add Admin</Link> */}
+      </div>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white rounded-md border border-[#17BEBB]">
           <thead>
@@ -207,7 +214,7 @@ function UsersByAdmin() {
               <React.Fragment key={admin.email}>
                 <tr className="cursor-pointer hover:bg-gray-100" onClick={() => toggleAccordion(admin.email)}>
                   <td className="px-6 py-4 border-b text-sm text-gray-900">
-                    {openAdminId === admin.email ? <RiArrowUpSLine /> : <RiArrowDownSLine />}
+                    {openAdminId === admin.email ? <RiArrowUpSLine className="animate-bounce w-5 h-5 text-[#E4572E]" /> : <RiArrowDownSLine className="animate-bounce w-5 h-5 text-[#E4572E]" />}
                   </td>
                   <td className="px-6 py-4 border-b text-sm text-gray-900">{admin.name}</td>
                   <td className="px-6 py-4 border-b text-sm text-gray-900">{admin.password}</td>

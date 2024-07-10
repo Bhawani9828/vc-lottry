@@ -79,8 +79,15 @@ function Signin() {
   };
 
   return (
-    <div>
-      <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+
+    <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
+    <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
+        <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
+        <div>
+                <img src="../public/vite.svg"
+                    className="w-mx-auto" />
+            </div>
+        <div className=" px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Signin to your account
@@ -158,7 +165,15 @@ function Signin() {
           </p>
         </div>
       </div>
-    </div>
+        </div>
+        <div className="flex-1 bg-[#e4572e24] text-center hidden lg:flex">
+            <div className="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat"
+            style={{backgroundImage:"url('../public/winner1.png'"}}>
+            </div>
+        </div>
+        </div>
+        </div>
+   
   );
 }
 

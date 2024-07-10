@@ -91,13 +91,13 @@ function AllUsers() {
   };
 
   return (
-    <div className="w-full h-screen rounded-md mt-12 p-4 bg-[#e4572e24]">
+    <div className="w-full rounded-md mt-12 p-4 bg-[#e4572e24]">
       <div className="flex justify-between items-center mb-4">
         <div>
           <h2 className="text-xl font-semibold">All Users</h2>
           <p className="text-gray-600">A list of all the Users in your account including their name, title, email, and role.</p>
         </div>
-        <Link to='/addadmin' className="bg-[#17BEBB] hover:bg-[#E4572E] text-white py-2 px-4 rounded">Add Admin</Link>
+        {/* <Link to='/addadmin' className="bg-[#17BEBB] hover:bg-[#E4572E] text-white py-2 px-4 rounded">Add Admin</Link> */}
       </div>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white rounded-md border border-[#17BEBB]">

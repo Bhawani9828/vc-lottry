@@ -29,8 +29,10 @@ function App() {
 
   return (
     <>
+    
     <ToastContainer />
-      {!isLoginPage && !isRegisterPage && !isSignupPage && <Topbar isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} />}
+    
+      {!isLoginPage && !isRegisterPage && !isSignupPage && <Topbar  isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} />}
       {!isLoginPage && !isRegisterPage && !isSignupPage && <Leftbar isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} />}
       
       <div className={!isLoginPage && !isRegisterPage && !isSignupPage ? "main-content" : ""}>

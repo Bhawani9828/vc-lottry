@@ -93,13 +93,20 @@ function Dashboard() {
   };
 
   return (
-    <div className="w-full h-screen rounded-md mt-12 p-4 bg-[#e4572e24]">
-      <div className="flex justify-between items-center mb-4">
-        <div>
+    <div className="w-full rounded-md md:mt-20 p-4 bg-[#e4572e24]">
+      <div className="flex md:justify-between  items-center mb-4">
+        <div className="">
           <h2 className="text-xl font-semibold">All Admins</h2>
           <p className="text-gray-600">A list of all the admins in your account including their name, title, email and role.</p>
         </div>
-        <Link to='/addadmin' className="bg-[#17BEBB] hover:bg-[#E4572E] text-white py-2 px-4 rounded">Add Admin</Link>
+        <Link to='/addadmin' className="relative inline-flex items-center justify-center py-2 px-4 overflow-hidden  md:text-lg tracking-tighter text-white bg-[#17BEBB] rounded-lg group">
+<span className="absolute w-0 h-0 transition-all duration-500 ease-out bg-[#E4572E] rounded-full group-hover:w-56 group-hover:h-56"></span>
+<span className="absolute inset-0 w-full h-full -mt-1 rounded-lg opacity-30 bg-gradient-to-b from-transparent via-transparent to-gray-700"></span>
+<span className="relative">Add Admin</span>
+</Link>
+        {/* <Link to='/addadmin' className="bg-[#17BEBB] hover:bg-[#E4572E] text-white py-2 px-4 rounded">
+
+        Add Admin</Link> */}
       </div>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white rounded-md border border-[#17BEBB]">

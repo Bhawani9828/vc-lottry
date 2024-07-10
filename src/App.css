@@ -9,8 +9,7 @@
   top: 0;
   left: 0;
   height: 100%;
-  background: #f4f4f4;
-  padding-top: 50px; /* Adjust this if you have a topbar */
+
 }
 
 
@@ -40,8 +39,10 @@
 }
 
 .topbar .logo img {
-  width: 30px;
-  margin-right: 10px;
+  width: 200px;
+  height: 81px;
+  object-fit: cover;
+ 
 }
 
 .topbar .notifications, .topbar .user {

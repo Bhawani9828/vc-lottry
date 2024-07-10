@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
+import logo from '../assets/logo.jpeg'
 // eslint-disable-next-line react/prop-types
 function Topbar({ isMenuOpen, toggleMenu }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -26,9 +27,11 @@ function Topbar({ isMenuOpen, toggleMenu }) {
 
   return (
     <>
-      <header className="topbar flex flex-col md:flex-row items-center justify-between bg-white shadow p-3">
+      <header className="topbar flex h-20 flex-col md:flex-row items-center justify-between bg-white  ">
         <div className="flex items-center justify-between w-full md:w-auto">
-          <h3 className="logo text-3xl text-[#E4572E]">Blockverse</h3>
+          <div className="logo   text-[#E4572E]">
+            <img className='' src={logo}/>
+          </div>
           <div className="flex items-center">
             <button className="md:hidden duration-300" onClick={toggleMenu}>
               <svg className="w-6 h-6" fill="none" stroke="#E4572E" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
