@@ -3,12 +3,15 @@ import axios from 'axios';
 import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'js-cookie';
+import { useNavigate } from "react-router-dom";
 function AddUser() {
+  const navigate = useNavigate();
     const [formData, setFormData] = useState({
         name: '',
         password: '',
         email: '',
-        role: ''
+         role:"user"
+        
       });
     
       const handleChange = (e) => {
@@ -42,15 +45,16 @@ function AddUser() {
             name: '',
             password: '',
             email: '',
-            role: ''
+           
           });
+          navigate('/userlist')
         } catch (error) {
           console.log("data::::::",error)
           if (error.response) {
            
             console.error('Server responded with error status:', error.response.status);
             console.error('Error details:', error.response.data);
-            toast.error('Error adding admin. Please try again later.');
+            toast.error(error.response.status);
           } else if (error.request) {
        
             console.error('No response received from server:', error.request);
@@ -58,7 +62,7 @@ function AddUser() {
           } else {
            
             console.error('Error setting up the request:', error.message);
-            toast.error('An unexpected error occurred. Please try again later.');
+            toast.error(error.message);
           }
         }
       };
@@ -84,19 +88,7 @@ function AddUser() {
           onChange={handleChange}
         />
       </div>
-      <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
-          Password
-        </label>
-        <input
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="password"
-          type="password"
-          placeholder="Enter password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-      </div>
+     
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
           Email
@@ -111,6 +103,19 @@ function AddUser() {
         />
       </div>
 
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+          Password
+        </label>
+        <input
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="password"
+          type="password"
+          placeholder="Enter password"
+          value={formData.password}
+          onChange={handleChange}
+        />
+      </div>
     
      
       <div className="flex items-center justify-between">

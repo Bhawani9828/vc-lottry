@@ -6,9 +6,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { RiArrowDownSLine, RiArrowUpSLine } from "react-icons/ri";
 import { ThreeCircles } from "react-loader-spinner";
 
-function UsersByAdmin() {
+function AllWinners() {
   const [admins, setAdmins] = useState([]);
-  const [usersByAdmin, setUsersByAdmin] = useState({});
+  const [allWinners, setAllWinners] = useState({});
   const [openAdminId, setOpenAdminId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -24,14 +24,9 @@ function UsersByAdmin() {
         throw new Error("No authentication token found.");
       }
 
-      const response = await fetch(
-        "http://192.168.1.9:9999/api/auth/admins",
-        {
-          headers: {
-            "x-auth-token": token,
-          },
-        }
-      );
+      const response = await fetch("http://192.168.1.9:9999/api/auth/admins", {
+        headers: { "x-auth-token": token },
+      });
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -39,61 +34,40 @@ function UsersByAdmin() {
 
       const data = await response.json();
       setAdmins(data);
-      toast.success("Admins fetched successfully!", {
-        position: "top-right",
-        autoClose: 2000,
-      });
+      toast.success("Admins fetched successfully!", { autoClose: 2000 });
     } catch (error) {
       console.error("Error fetching admins:", error);
-      toast.error("Error fetching admins. Please try again later.", {
-        position: "top-right",
-        autoClose: 2000,
-      });
+      toast.error("Error fetching admins. Please try again later.", { autoClose: 2000 });
     } finally {
       setIsLoading(false);
     }
   };
 
-  const fetchUsersByAdmin = async (email) => {
+  const fetchAllWinners = async (email) => {
     try {
       const token = Cookies.get("token");
       if (!token) {
         throw new Error("No authentication token found.");
       }
 
-      const response = await fetch(
-        "http://192.168.1.9:9999/api/auth/all-users",
-        {
-          headers: {
-            "x-auth-token": token,
-          },
-        }
-      );
+      const response = await fetch("http://192.168.1.9:9999/api/auth/all-users", {
+        headers: { "x-auth-token": token },
+      });
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
       const data = await response.json();
-
       const filteredUsers = data.filter(
-        (user) => user.createdBy?.email === email
+        (user) => user.createdBy?.email === email && user.hasWonLottery
       );
 
-      setUsersByAdmin((prevState) => ({
-        ...prevState,
-        [email]: filteredUsers,
-      }));
-      toast.success("Users fetched successfully!", {
-        position: "top-right",
-        autoClose: 2000,
-      });
+      setAllWinners((prevState) => ({ ...prevState, [email]: filteredUsers }));
+      toast.success("Users fetched successfully!", { autoClose: 2000 });
     } catch (error) {
       console.error("Error fetching users:", error);
-      toast.error("Error fetching users. Please try again later.", {
-        position: "top-right",
-        autoClose: 2000,
-      });
+      toast.error("Error fetching users. Please try again later.", { autoClose: 2000 });
     }
   };
 
@@ -102,45 +76,32 @@ function UsersByAdmin() {
       setOpenAdminId(null);
     } else {
       setOpenAdminId(email);
-      if (!usersByAdmin[email]) {
-        await fetchUsersByAdmin(email);
+      if (!allWinners[email]) {
+        await fetchAllWinners(email);
       }
     }
   };
 
   const handleDelete = async (id, type) => {
     try {
-      console.log(`Deleting ${type} with _id:`, id);
-
-      if (!id) {
-        throw new Error("No _id provided for deletion");
-      }
-
       const token = Cookies.get("token");
       if (!token) {
         throw new Error("No authentication token found.");
       }
 
-      const response = await fetch(
-        `http://192.168.1.9:9999/api/auth/delete-user/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            "x-auth-token": token,
-          },
-        }
-      );
+      const response = await fetch(`http://192.168.1.9:9999/api/auth/delete-user/${id}`, {
+        method: "DELETE",
+        headers: { "x-auth-token": token },
+      });
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
       if (type === "admin") {
-        setAdmins((prevAdmins) =>
-          prevAdmins.filter((admin) => admin._id !== id)
-        );
+        setAdmins((prevAdmins) => prevAdmins.filter((admin) => admin._id !== id));
       } else if (type === "user") {
-        setUsersByAdmin((prevState) => {
+        setAllWinners((prevState) => {
           const newState = { ...prevState };
           Object.keys(newState).forEach((email) => {
             newState[email] = newState[email].filter((user) => user._id !== id);
@@ -149,64 +110,18 @@ function UsersByAdmin() {
         });
       }
 
-      toast.success(
-        `${type.charAt(0).toUpperCase() + type.slice(1)} deleted successfully!`,
-        {
-          position: "top-right",
-          autoClose: 2000,
-        }
-      );
-    } catch (error) {
-      console.error(`Error deleting ${type}:`, error);
-      toast.error(`Error deleting ${type}. Please try again later.`, {
-        position: "top-right",
+      toast.success(`${type.charAt(0).toUpperCase() + type.slice(1)} deleted successfully!`, {
         autoClose: 2000,
       });
+    } catch (error) {
+      console.error(`Error deleting ${type}:`, error);
+      toast.error(`Error deleting ${type}. Please try again later.`, { autoClose: 2000 });
     }
   };
 
   const confirmDelete = (id, type) => {
     if (window.confirm(`Are you sure you want to delete this ${type}?`)) {
       handleDelete(id, type);
-    }
-  };
-
-  const selectLotteryWinner = async (userId, adminEmail) => {
-    try {
-      const token = Cookies.get("token");
-      if (!token) {
-        throw new Error("No authentication token found.");
-      }
-
-      const response = await fetch(
-        "http://192.168.1.9:9999/api/auth/select-lottery-winner",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-auth-token": token,
-          },
-          body: JSON.stringify({ userId }),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      // Refresh the user data for this admin
-      await fetchUsersByAdmin(adminEmail);
-
-      toast.success("Lottery winner selected successfully!", {
-        position: "top-right",
-        autoClose: 2000,
-      });
-    } catch (error) {
-      console.error("Error selecting lottery winner:", error);
-      toast.error("Error selecting lottery winner. Please try again later.", {
-        position: "top-right",
-        autoClose: 2000,
-      });
     }
   };
 
@@ -220,15 +135,13 @@ function UsersByAdmin() {
             width="100"
             color="#E4572E"
             ariaLabel="three-circles-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
           />
         </div>
       ) : (
         <>
           <div className="flex justify-between items-center mb-4">
             <div>
-              <h2 className="text-xl font-semibold">UsersByAdmin</h2>
+              <h2 className="text-xl font-semibold">All Winners</h2>
               <p className="text-gray-600">
                 A list of all the Users in your account including their name, title,
                 email and role.
@@ -287,7 +200,7 @@ function UsersByAdmin() {
                       </td>
                       <td className="px-6 py-4 border-b text-center text-sm">
                         <Link
-                          to={`/editadmin/${admin._id}`} state={{ user: admin }}
+                          to={`/edituser/${admin._id}`} state={{ user: admin }}
                           className="text-[#17BEBB] me-3 z-10 hover:text-[#E4572E]"
                         >
                           Edit
@@ -305,17 +218,20 @@ function UsersByAdmin() {
                         <td colSpan="6" className="px-6 py-4 border-b">
                           <div className="mt-4">
                             <h3 className="text-lg font-semibold">
-                              Users for {admin.name}
+                              Winning Users for {admin.name}
                             </h3>
                             <div className="overflow-x-auto mt-4">
                               <table className="min-w-full bg-white rounded-md border-2 border-[#E4572E]">
                                 <thead>
                                   <tr>
-                                    <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">
-                                      Created By Name
+                                  <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">
+                                      
                                     </th>
                                     <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">
-                                      Created By Email
+                                      Name
+                                    </th>
+                                    <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">
+                                      Email
                                     </th>
                                     <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">
                                       Role
@@ -329,36 +245,26 @@ function UsersByAdmin() {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {usersByAdmin[admin.email]?.map((user) => (
-                                    <tr
-                                      key={user.email}
-                                      className={user.hasWonLottery ? "bg-green-100" : ""}
-                                    >
+                                  {allWinners[admin.email]?.map((user) => (
+                                    <tr key={user.email} className="bg-green-100">
+                                         <td className="px-6 py-4 border-b text-sm text-gray-900">
+                                         ✅
+                                      </td>
                                       <td className="px-6 py-4 border-b text-sm text-gray-900">
                                         {user.name || "N/A"}
                                       </td>
                                       <td className="px-6 py-4 border-b text-sm text-gray-900">
-                                        {user.email || "N/A"}
+                                       {user.email || "N/A"}
                                       </td>
                                       <td className="px-6 py-4 border-b text-sm text-gray-900">
                                         {user.role || "N/A"}
                                       </td>
                                       <td className="px-6 py-4 border-b text-center text-sm">
-                                        <button
-                                          onClick={() => selectLotteryWinner(user._id, admin.email)}
-                                          className={`py-1 px-2 rounded-sm ${
-                                            user.hasWonLottery
-                                              ? "bg-[#17BEBB] hover:bg-[#17BEBB]"
-                                              : "bg-[#E4572E] hover:bg-[#E4572E]"
-                                          } text-white`}
-                                          disabled={user.hasWonLottery}
-                                        >
-                                          {user.hasWonLottery ? "Winner" : "Select as Winner"}
-                                        </button>
+                                        {user.hasWonLottery ? "Winner" : ""}
                                       </td>
                                       <td className="px-6 py-4 border-b text-center text-sm">
                                         <Link
-                                          to={`/edituser/${user._id}`} state={{ user: user }}
+                                          to={`/editadmin/${user._id}`} state={{ user: user }}
                                           className="text-[#17BEBB] me-3 z-10 hover:text-[#E4572E]"
                                         >
                                           Edit
@@ -390,4 +296,4 @@ function UsersByAdmin() {
   );
 }
 
-export default UsersByAdmin;
+export default AllWinners;

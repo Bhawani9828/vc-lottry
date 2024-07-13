@@ -10,7 +10,7 @@ function Signup() {
             Blockverse
           </h1>
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          Signup to your account
+            Signup to your account
           </h2>
         </div>
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">

@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import Cookies from 'js-cookie';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom';
-import logo from '../assets/logo.jpeg'
+import { useState } from "react";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
+import logo from "../assets/logo.jpeg";
 // eslint-disable-next-line react/prop-types
 function Topbar({ isMenuOpen, toggleMenu }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -13,29 +13,38 @@ function Topbar({ isMenuOpen, toggleMenu }) {
   };
 
   const handleSignOut = () => {
-    try{
-       Cookies.remove('token');
+    try {
+      Cookies.remove("token");
       // Redirect to login page after sign-out
-      toast.success('Logout successfully!');
-      navigate('/');
-    }catch(error){
+      toast.success("Logout successfully!");
+      navigate("/");
+    } catch (error) {
       toast.error(`Error Logout: ${error.message}`);
     }
-    
-  
   };
 
   return (
     <>
-      <header className="topbar flex h-20 flex-col md:flex-row items-center justify-between bg-white  ">
+      <header className="topbar flex h-20 ps-0 flex-col md:flex-row items-center justify-between bg-white  ">
         <div className="flex items-center justify-between w-full md:w-auto">
           <div className="logo   text-[#E4572E]">
-            <img className='' src={logo}/>
+            <img className="" src={logo} />
           </div>
           <div className="flex items-center">
             <button className="md:hidden duration-300" onClick={toggleMenu}>
-              <svg className="w-6 h-6" fill="none" stroke="#E4572E" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="#E4572E"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16m-7 6h7"
+                ></path>
               </svg>
             </button>
             <div className="relative ml-3 md:hidden">
@@ -94,7 +103,11 @@ function Topbar({ isMenuOpen, toggleMenu }) {
             </div>
           </div>
         </div>
-        <div className={`flex flex-col md:flex-row items-center w-full md:w-auto mt-2 md:mt-0 ${isMenuOpen ? 'block' : 'hidden'} md:flex`}>
+        <div
+          className={`flex flex-col md:flex-row items-center w-full md:w-auto mt-2 md:mt-0 ${
+            isMenuOpen ? "block" : "hidden"
+          } md:flex`}
+        >
           <input
             type="text"
             placeholder="Search..."
