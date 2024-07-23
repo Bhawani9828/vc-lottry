@@ -19,7 +19,7 @@ function Dashboard() {
         }
 
         const response = await fetch(
-          "http://192.168.1.9:9999/api/auth/admins",
+          "http://192.168.1.13:9999/api/auth/admins",
           {
             headers: {
               "x-auth-token": `${token}`,
@@ -65,7 +65,7 @@ function Dashboard() {
       }
 
       const response = await fetch(
-        `http://192.168.1.9:9999/api/auth/delete-user/${id}`,
+        `http://192.168.1.13:9999/api/auth/delete-user/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -147,7 +147,13 @@ function Dashboard() {
                     Password
                   </th>
                   <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">
-                    Email
+                    Mobile number
+                  </th>
+                  <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">
+                    Town
+                  </th>
+                  <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">
+                    Address
                   </th>
                   <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">
                     Role
@@ -170,12 +176,18 @@ function Dashboard() {
                       {admin.email}
                     </td>
                     <td className="px-6 py-4 border-b text-sm text-gray-900">
+                      {admin.town}
+                    </td>
+                    <td className="px-6 py-4 border-b text-sm text-gray-900">
+                      {admin.address}
+                    </td>
+                    <td className="px-6 py-4 border-b text-sm text-gray-900">
                       {admin.role}
                     </td>
                     <td className="px-6 py-4 border-b flex justify-around  text-sm">
                       <Link
                         to={`/editadmin/${admin.id}`} state={{ user: admin }}
-                        className="text-[#17BEBB]  z-10 hover:text-[#E4572E]"
+                        className="text-[#17BEBB]  hover:text-[#E4572E]"
                       >
                         Edit
                       </Link>

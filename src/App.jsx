@@ -17,11 +17,14 @@ import EditUser from './pages/EditUser';
 import AllWinners from './pages/AllWinners';
 import WinnersUser from './pages/WinnersUser';
 import EditAdmin from './pages/EditAdmin';
+import Setting from './pages/Setting';
+import Signup from './pages/Signup';
+import AdminAprovel from './pages/AdminAprovel';
 
 function App() {
   const location = useLocation();
-  const isSignupPage = location.pathname === "/";
-  const isLoginPage = location.pathname === "/login";
+  const isSignupPage = location.pathname === "/signup";
+  const isLoginPage = location.pathname === "/";
   const isRegisterPage = location.pathname === "/register";
  
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -40,7 +43,7 @@ function App() {
       
       <div className={!isLoginPage && !isRegisterPage && !isSignupPage ? "main-content" : ""}>
         <Routes>
-          {/* <Route path="/" element={<Signup />} /> */}
+          <Route path="/signup" element={<Signup />} />
 
           <Route path="/" element={<Signin />} />
           <Route path="/dashboard"   element={<SuperAdminRoute> <Dashboard /> </SuperAdminRoute>}  />
@@ -48,9 +51,11 @@ function App() {
           <Route path="/allwinners" element={<SuperAdminRoute><AllWinners /></SuperAdminRoute> } />
           <Route path="/adduser" element={ <AdminRoute><AddUser /></AdminRoute> } />
           <Route path="/userlist" element={ <AdminRoute><UserList /></AdminRoute> } />
+          <Route path="/setting" element={ <AdminRoute><Setting /></AdminRoute> } />
           <Route path="/win" element={ <AdminRoute><WinnersUser /></AdminRoute> } />
           <Route path="/alluser" element={ <SuperAdminRoute><AllUsers /></SuperAdminRoute> } />
           <Route path="/usersbyadmin" element={<SuperAdminRoute><UsersByAdmin /></SuperAdminRoute>} />
+          <Route path="/adminaprovel" element={<SuperAdminRoute><AdminAprovel /></SuperAdminRoute>} />
           <Route path="/edituser/:id" element={<EditUser />} />
           <Route path="/editadmin/:id" element={<EditAdmin />} />
        

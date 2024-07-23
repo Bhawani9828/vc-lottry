@@ -18,11 +18,13 @@ function EditUser() {
 
   useEffect(() => {
     if (location.state && location.state.user) {
-      const { name, email, role } = location.state.user; // Ensure role is included
+      const { name, email, role,town,address } = location.state.user; // Ensure role is included
       setFormData({
         name,
         email,
         password: "",
+        town,
+        address,
         role
       });
     } else {
@@ -38,7 +40,7 @@ function EditUser() {
       }
 
       const response = await fetch(
-        `http://192.168.1.9:9999/api/auth/users/${id}`,
+        `https://vclottery.in/vc/api/auth/users/${id}`,
         {
           method: "GET",
           headers: {
@@ -57,6 +59,8 @@ function EditUser() {
         name: userData.name,
         email: userData.email,
         password: "",
+        town:userData.town,
+        address:userData.address,
         role: userData.role // Store user role in formData
       });
     } catch (error) {
@@ -90,7 +94,7 @@ function EditUser() {
       }
 
       const response = await fetch(
-        `http://192.168.1.9:9999/api/auth/edit-user/${id}`,
+        `https://vclottery.in/vc/api/auth/edit-user/${id}`,
         {
           method: "PUT",
           headers: {
@@ -111,11 +115,9 @@ function EditUser() {
         autoClose: 2000,
         onClose: () => {
           // Navigate based on user role
-          if (formData.role === "admin") {
-            navigate("/dashboard");
-          } else {
+         
             navigate("/userlist");
-          }
+         
         }
       });
     } catch (error) {
@@ -159,13 +161,13 @@ function EditUser() {
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="email"
           >
-            Email
+            Mobile number
           </label>
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="email"
-            type="email"
-            placeholder="Enter email"
+            type="text"
+            placeholder="Enter mobile"
             value={formData.email}
             onChange={handleChange}
           />
@@ -183,6 +185,40 @@ function EditUser() {
             type="password"
             placeholder="Enter new password (leave blank to keep current)"
             value={formData.password}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="name"
+          >
+            Town
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="town"
+            type="text"
+            placeholder="Enter town"
+            value={formData.town}
+            onChange={handleChange}
+          />
+         
+        </div>
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="name"
+          >
+            Address
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="address"
+            type="text"
+            placeholder="Enter address"
+            value={formData.address}
             onChange={handleChange}
           />
         </div>

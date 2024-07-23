@@ -1,16 +1,15 @@
 import { useState, useEffect } from "react";
-
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import "react-toastify/dist/ReactToastify.css";
 import { ThreeCircles } from "react-loader-spinner";
 
-function AllUsers() {
-  const [allUsers, setAllUsers] = useState([]);
+function AdminAprovel() {
+  const [adminAprovel, setAdminAprovel] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const fetchAllUsers = async () => {
+    const fetchAdminAprovel = async () => {
       setIsLoading(true);
       try {
         const token = Cookies.get("token");
@@ -20,11 +19,11 @@ function AllUsers() {
         }
 
         const response = await fetch(
-          "https://vclottery.in/vc/api/auth/all-users",
+          "https://vclottery.in/vc/api/auth/pending-users",
           {
             headers: {
               "x-auth-token": `${token}`,
-            },
+            }
           }
         );
 
@@ -33,7 +32,8 @@ function AllUsers() {
         }
 
         const data = await response.json();
-        setAllUsers(data.users);
+        console.log("Fetched users data:", data);  // Debugging statement
+        setAdminAprovel(data);
         toast.success("Users fetched successfully!", {
           position: "top-right",
           autoClose: 2000,
@@ -49,55 +49,44 @@ function AllUsers() {
       }
     };
 
-    fetchAllUsers();
+    fetchAdminAprovel();
   }, []);
 
-  const handleDelete = async (id) => {
+  const handleApproval = async (id) => {
     try {
-      console.log("Deleting user with _id:", id); // Debugging statement
-
-      if (!id) {
-        throw new Error("No _id provided for deletion");
-      }
-
       const token = Cookies.get("token");
       if (!token) {
         throw new Error("No authentication token found.");
       }
 
-      const response = await fetch(
-        `https://vclottery.in/vc/api/auth/delete-user/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            "x-auth-token": token,
-          },
-        }
-      );
+      const response = await fetch(`https://vclottery.in/vc/api/auth/verify-user/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": token,
+        },
+        body: JSON.stringify({}),
+      });
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      // Remove the deleted user from the state
-      setAllUsers((prevUsers) => prevUsers.filter((user) => user.id !== id));
+      const updatedUser = await response.json();
+console.log("updatedUser::::",updatedUser)
+      // Update the state to reflect the approval
+      setAdminAprovel((prevUsers) => prevUsers.filter((user) => user.id !== id));
 
-      toast.success("User deleted successfully!", {
+      toast.success("User approved successfully!", {
         position: "top-right",
         autoClose: 2000,
       });
     } catch (error) {
-      console.error("Error deleting user:", error);
-      toast.error("Error deleting user. Please try again later.", {
+      console.error("Error approving user:", error);
+      toast.error("Error approving user. Please try again later.", {
         position: "top-right",
         autoClose: 2000,
       });
-    }
-  };
-
-  const confirmDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this user?")) {
-      handleDelete(id); // Pass _id correctly
     }
   };
 
@@ -119,10 +108,9 @@ function AllUsers() {
         <>
           <div className="flex justify-between items-center mb-4">
             <div>
-              <h2 className="text-xl font-semibold">All Users</h2>
+              <h2 className="text-xl font-semibold">Admin Approval</h2>
               <p className="text-gray-600">
-                A list of all the Users in your account including their name,
-                title, email, and role.
+                A list of pending users in your account.
               </p>
             </div>
           </div>
@@ -144,14 +132,14 @@ function AllUsers() {
                   </th>
                   <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">
                     Address
-                  </th>    
+                  </th>
                   <th className="px-6 py-3 border-b text-start text-sm font-medium text-gray-500">
                     Action
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {allUsers.map((alluser, index) => (
+                {adminAprovel.map((alluser, index) => (
                   <tr key={index}>
                     <td className="px-6 py-4 border-b text-sm text-gray-900">
                       {alluser.name}
@@ -163,24 +151,17 @@ function AllUsers() {
                       {alluser.email}
                     </td>
                     <td className="px-6 py-4 border-b text-sm text-gray-900">
-                      {alluser.town || "N/A"} 
+                      {alluser.town || "N/A"}
                     </td>
                     <td className="px-6 py-4 border-b text-sm text-gray-900">
                       {alluser.address || "N/A"}
                     </td>
                     <td className="px-6 py-4 border-b text-sm flex justify-start">
-                      {/* <Link
-                        to={`/edituser/${alluser.id}`}
-                        state={{ user: alluser }}
-                        className="text-[#17BEBB] me-3 z-10 hover:text-[#E4572E]"
-                      >
-                        Edit
-                      </Link> */}
                       <button
-                        onClick={() => confirmDelete(alluser.id)}
-                        className="text-red-500 hover:text-red-700 ml-2"
+                        className="text-green-600"
+                        onClick={() => handleApproval(alluser.id)}
                       >
-                        Delete
+                        Approve
                       </button>
                     </td>
                   </tr>
@@ -194,4 +175,4 @@ function AllUsers() {
   );
 }
 
-export default AllUsers;
+export default AdminAprovel;

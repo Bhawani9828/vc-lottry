@@ -7,10 +7,12 @@ import { useNavigate } from "react-router-dom";
 function AddUser() {
   const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        name: '',
-        password: '',
-        email: '',
-         role:"user"
+        name: "",
+        password: "",
+        email: "",
+        town:'',
+        address:'',
+        role:"user"
         
       });
     
@@ -30,7 +32,7 @@ function AddUser() {
             if (!token) {
               throw new Error('No authentication token found.');
             }
-          const response = await axios.post('http://192.168.1.9:9999/api/auth/create-user', formData, {
+          const response = await axios.post('https://vclottery.in/vc/api/auth/create-user', formData, {
             headers: {
                 'x-auth-token': `${token}`
               }
@@ -45,6 +47,8 @@ function AddUser() {
             name: '',
             password: '',
             email: '',
+            town:'',
+            address:'',
            
           });
           navigate('/userlist')
@@ -91,13 +95,13 @@ function AddUser() {
      
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-          Email
+          Mobile number
         </label>
         <input
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="email"
-          type="email"
-          placeholder="Enter email"
+          type="text"
+          placeholder="Enter mobile"
           value={formData.email}
           onChange={handleChange}
         />
@@ -113,6 +117,34 @@ function AddUser() {
           type="password"
           placeholder="Enter password"
           value={formData.password}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+          Town
+        </label>
+        <input
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="town"
+          type="text"
+          placeholder="Enter town"
+          value={formData.town}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+          Address
+        </label>
+        <input
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="address"
+          type="text"
+          placeholder="Enter address"
+          value={formData.address}
           onChange={handleChange}
         />
       </div>

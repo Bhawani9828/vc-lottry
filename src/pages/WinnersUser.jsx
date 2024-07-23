@@ -23,7 +23,7 @@ function WinnersUser() {
         throw new Error("No authentication token found.");
       }
 
-      const response = await fetch("http://192.168.1.9:9999/api/auth/admin-winners", {
+      const response = await fetch("https://vclottery.in/vc/api/auth/admin-winners", {
         headers: {
           "x-auth-token": token,
         },
@@ -61,7 +61,7 @@ function WinnersUser() {
         throw new Error('No authentication token found.');
       }
 
-      const response = await fetch(`http://192.168.1.9:9999/api/auth/delete-user/${id}`, {
+      const response = await fetch(`https://vclottery.in/vc/api/auth/delete-user/${id}`, {
         method: 'DELETE',
         headers: {
           'x-auth-token': token

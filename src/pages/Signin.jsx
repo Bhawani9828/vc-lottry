@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Signin() {
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ function Signin() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://192.168.1.9:9999/api/auth/login",
+        "https://vclottery.in/vc/api/auth/login",
         formData
       );
       console.log("Admin signin successfully:", response.data);
@@ -35,7 +35,7 @@ function Signin() {
       // Fetch user role
       const token = response.data.token;
       const userResponse = await axios.get(
-        "http://192.168.1.9:9999/api/auth/protected",
+        "https://vclottery.in/vc/api/auth/protected",
         {
           headers: {
             "x-auth-token": `${token}`,
@@ -111,7 +111,7 @@ function Signin() {
                     htmlFor="email"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    Email address
+                    Mobile number
                   </label>
                   <div className="mt-2">
                     <input
@@ -119,7 +119,7 @@ function Signin() {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      type="email"
+                      type="text"
                       autoComplete="email"
                       required
                       className="block w-full ps-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
@@ -148,14 +148,16 @@ function Signin() {
                     />
                   </div>
                 </div>
-                <div>
+                <div className="">
                   <button
                     type="submit"
-                    className="flex w-full justify-center rounded-md bg-[#17BEBB] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                    className="flex w-full mb-5 justify-center rounded-md bg-[#17BEBB] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
                   >
                     Sign in
                   </button>
+                  <Link to="/signup" className="mt-5 flex justify-center">  Not a member? <span className="text-indigo-400">Create a Account</span></Link>
                 </div>
+             
               </form>
               
             </div>

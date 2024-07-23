@@ -25,7 +25,7 @@ function UsersByAdmin() {
       }
 
       const response = await fetch(
-        "http://192.168.1.9:9999/api/auth/admins",
+        "https://vclottery.in/vc/api/auth/admins",
         {
           headers: {
             "x-auth-token": token,
@@ -62,7 +62,7 @@ function UsersByAdmin() {
       }
 
       const response = await fetch(
-        "http://192.168.1.9:9999/api/auth/all-users",
+        "https://vclottery.in/vc/api/auth/all-users",
         {
           headers: {
             "x-auth-token": token,
@@ -75,8 +75,9 @@ function UsersByAdmin() {
       }
 
       const data = await response.json();
+      // console.log("data::::::",(data,null ))
 
-      const filteredUsers = data.filter(
+      const filteredUsers = data.users.filter(
         (user) => user.createdBy?.email === email
       );
 
@@ -122,7 +123,7 @@ function UsersByAdmin() {
       }
 
       const response = await fetch(
-        `http://192.168.1.9:9999/api/auth/delete-user/${id}`,
+        `https://vclottery.in/vc/api/auth/delete-user/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -137,13 +138,13 @@ function UsersByAdmin() {
 
       if (type === "admin") {
         setAdmins((prevAdmins) =>
-          prevAdmins.filter((admin) => admin._id !== id)
+          prevAdmins.filter((admin) => admin.id !== id)
         );
       } else if (type === "user") {
         setUsersByAdmin((prevState) => {
           const newState = { ...prevState };
           Object.keys(newState).forEach((email) => {
-            newState[email] = newState[email].filter((user) => user._id !== id);
+            newState[email] = newState[email].filter((user) => user.id !== id);
           });
           return newState;
         });
@@ -179,7 +180,7 @@ function UsersByAdmin() {
       }
 
       const response = await fetch(
-        "http://192.168.1.9:9999/api/auth/select-lottery-winner",
+        "https://vclottery.in/vc/api/auth/select-lottery-winner",
         {
           method: "POST",
           headers: {
@@ -249,7 +250,10 @@ function UsersByAdmin() {
                     Password
                   </th>
                   <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">
-                    Email
+                    Mobile number
+                  </th>
+                  <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">
+                    Town
                   </th>
                   <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">
                     Role
@@ -283,17 +287,20 @@ function UsersByAdmin() {
                         {admin.email}
                       </td>
                       <td className="px-6 py-4 border-b text-sm text-gray-900">
+                        {admin.town}
+                      </td>
+                      <td className="px-6 py-4 border-b text-sm text-gray-900">
                         {admin.role}
                       </td>
                       <td className="px-6 py-4 border-b text-center text-sm">
                         <Link
-                          to={`/editadmin/${admin._id}`} state={{ user: admin }}
+                          to={`/editadmin/${admin.id}`} state={{ user: admin }}
                           className="text-[#17BEBB] me-3 z-10 hover:text-[#E4572E]"
                         >
                           Edit
                         </Link>
                         <button
-                          onClick={() => confirmDelete(admin._id, "admin")}
+                          onClick={() => confirmDelete(admin.id, "admin")}
                           className="text-red-500 hover:text-red-700 ml-2"
                         >
                           Delete
@@ -302,7 +309,7 @@ function UsersByAdmin() {
                     </tr>
                     {openAdminId === admin.email && (
                       <tr>
-                        <td colSpan="6" className="px-6 py-4 border-b">
+                        <td colSpan="8" className="px-6 py-4 border-b">
                           <div className="mt-4">
                             <h3 className="text-lg font-semibold">
                               Users for {admin.name}
@@ -312,10 +319,13 @@ function UsersByAdmin() {
                                 <thead>
                                   <tr>
                                     <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">
-                                      Created By Name
+                                       Name
                                     </th>
                                     <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">
-                                      Created By Email
+                                       Mobile number
+                                    </th>
+                                    <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">
+                                      Town
                                     </th>
                                     <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">
                                       Role
@@ -323,9 +333,7 @@ function UsersByAdmin() {
                                     <th className="px-6 py-3 border-b text-center text-sm font-medium text-gray-500">
                                       Winner
                                     </th>
-                                    <th className="px-6 py-3 border-b text-center text-sm font-medium text-gray-500">
-                                      Action
-                                    </th>
+                                  
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -341,11 +349,14 @@ function UsersByAdmin() {
                                         {user.email || "N/A"}
                                       </td>
                                       <td className="px-6 py-4 border-b text-sm text-gray-900">
+                                        {user.town || "N/A"}
+                                      </td>
+                                      <td className="px-6 py-4 border-b text-sm text-gray-900">
                                         {user.role || "N/A"}
                                       </td>
                                       <td className="px-6 py-4 border-b text-center text-sm">
                                         <button
-                                          onClick={() => selectLotteryWinner(user._id, admin.email)}
+                                          onClick={() => selectLotteryWinner(user.id, admin.email)}
                                           className={`py-1 px-2 rounded-sm ${
                                             user.hasWonLottery
                                               ? "bg-[#17BEBB] hover:bg-[#17BEBB]"
@@ -356,7 +367,7 @@ function UsersByAdmin() {
                                           {user.hasWonLottery ? "Winner" : "Select as Winner"}
                                         </button>
                                       </td>
-                                      <td className="px-6 py-4 border-b text-center text-sm">
+                                      {/* <td className="px-6 py-4 border-b text-center text-sm">
                                         <Link
                                           to={`/edituser/${user._id}`} state={{ user: user }}
                                           className="text-[#17BEBB] me-3 z-10 hover:text-[#E4572E]"
@@ -364,12 +375,12 @@ function UsersByAdmin() {
                                           Edit
                                         </Link>
                                         <button
-                                          onClick={() => confirmDelete(user._id, "user")}
+                                          onClick={() => confirmDelete(user.id, "user")}
                                           className="text-red-500 hover:text-red-700 ml-2"
                                         >
                                           Delete
                                         </button>
-                                      </td>
+                                      </td> */}
                                     </tr>
                                   ))}
                                 </tbody>

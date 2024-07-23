@@ -19,7 +19,7 @@ function UserList() {
           throw new Error("No authentication token found.");
         }
 
-        const response = await fetch("http://192.168.1.9:9999/api/auth/users", {
+        const response = await fetch("https://vclottery.in/vc/api/auth/users", {
           headers: {
             "x-auth-token": `${token}`,
           },
@@ -30,7 +30,7 @@ function UserList() {
         }
 
         const data = await response.json();
-        setUsers(data);
+        setUsers(data.users);
         toast.success("Users fetched successfully!", {
           position: "top-right",
           autoClose: 2000,
@@ -62,7 +62,7 @@ function UserList() {
         throw new Error('No authentication token found.');
       }
 
-      const response = await fetch(`http://192.168.1.9:9999/api/auth/delete-user/${id}`, {
+      const response = await fetch(`https://vclottery.in/vc/api/auth/delete-user/${id}`, {
         method: 'DELETE',
         headers: {
           'x-auth-token': token
@@ -91,6 +91,7 @@ function UserList() {
 
   const confirmDelete = (id) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
+      console.log("id::::",id);
       handleDelete(id);  // Pass _id correctly
     }
   };
@@ -116,22 +117,32 @@ function UserList() {
               <h2 className="text-xl font-semibold">All Users</h2>
               <p className="text-gray-600">
                 A list of all the users in your account including their name,
-                title, email, and role.
+                Mobile number, password,town,address and role.
               </p>
             </div>
           </div>
           <div className="overflow-x-auto">
-            <table className="min-w-full bg-white rounded-md border border-[#17BEBB]">
+            <table className="min-w-full bg-white rounded-md border-2 border-[#17BEBB]">
               <thead>
                 <tr>
                   <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">
                     Name
                   </th>
+               
                   <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">
-                    Role
+                  Mobile number
                   </th>
                   <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">
-                    Email
+                    Password
+                  </th>
+                  <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">
+                    Town
+                  </th>
+                  <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">
+                    Address
+                  </th>
+                  <th className="px-6 py-3 border-b text-left text-sm font-medium text-gray-500">
+                    Role
                   </th>
                   <th className="px-6 py-3 border-b text-start text-sm font-medium text-gray-500">
                     Action
@@ -144,11 +155,21 @@ function UserList() {
                     <td className="px-6 py-4 border-b text-sm text-gray-900">
                       {user.name}
                     </td>
-                    <td className="px-6 py-4 border-b text-sm text-gray-900">
-                      {user.role}
-                    </td>
+                  
                     <td className="px-6 py-4 border-b text-sm text-gray-900">
                       {user.email}
+                    </td>
+                    <td className="px-6 py-4 border-b text-sm text-gray-900">
+                      {user.password}
+                    </td>
+                    <td className="px-6 py-4 border-b text-sm text-gray-900">
+                      {user.town || "N/A"}
+                    </td>
+                    <td className="px-6 py-4 border-b text-sm text-gray-900">
+                      {user.address || "N/A"}
+                    </td>
+                    <td className="px-6 py-4 border-b text-sm text-gray-900">
+                      {user.role}
                     </td>
                     <td className="px-6 py-4 border-b text-sm flex justify-start">
                   <Link to={`/edituser/${user._id}`} state={{ user: user }} className="text-[#17BEBB] me-3 z-10 hover:text-[#E4572E]">Edit</Link>

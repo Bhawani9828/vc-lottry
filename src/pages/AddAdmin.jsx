@@ -9,6 +9,8 @@ function AddAdmin() {
     name: "",
     password: "",
     email: "",
+    town:'',
+    address:'',
     role:"admin"
     
   });
@@ -25,7 +27,7 @@ function AddAdmin() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://192.168.1.9:9999/api/auth/register",
+       "http://192.168.1.13:9999/api/auth/register",
         formData
       );
       console.log("Admin added successfully:", response.data);
@@ -38,6 +40,8 @@ function AddAdmin() {
         name: "",
         password: "",
         email: "",
+        town:'',
+        address:'',
         
       });
       navigate('/dashboard')
@@ -45,12 +49,12 @@ function AddAdmin() {
     } catch (error) {
       console.log("data::::::", error);
       if (error.response) {
-        console.error(
+        console.error( 
           "Server responded with error status:",
           error.response.status
         );
         console.error("Error details:", error.response.data);
-        toast.error("Error adding admin. Please try again later.");
+        toast.error("Error adding admin. Mobile number already exist.");
       } else if (error.request) {
         console.error("No response received from server:", error.request);
         toast.error(
@@ -99,13 +103,13 @@ function AddAdmin() {
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="email"
           >
-            Email
+            Mobile Number
           </label>
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="email"
-            type="email"
-            placeholder="Enter email"
+            type="text"
+            placeholder="Enter mobile"
             value={formData.email}
             onChange={handleChange}
           />
@@ -123,6 +127,40 @@ function AddAdmin() {
             type="password"
             placeholder="Enter password"
             value={formData.password}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="name"
+          >
+            Town
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="town"
+            type="text"
+            placeholder="Enter town"
+            value={formData.town}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="name"
+          >
+            Address
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="address"
+            type="text"
+            placeholder="Enter address"
+            value={formData.address}
             onChange={handleChange}
           />
         </div>
